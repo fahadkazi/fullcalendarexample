@@ -22,7 +22,7 @@ export default class DemoApp extends React.Component {
         views={{
           timelineCustom: {
             type: "timeGrid",
-            buttonText: "Year",
+            buttonText: "Custom",
 
             visibleRange: function(currentDate) {
               // Generate a new date for manipulating in the next step
