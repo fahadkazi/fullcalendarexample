@@ -2,6 +2,7 @@ import React from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
+import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 import "./main.scss"; // webpack must be configured to do this
 
 export default class DemoApp extends React.Component {
@@ -9,31 +10,34 @@ export default class DemoApp extends React.Component {
     return (
       <FullCalendar
         defaultView="dayGridWeek"
-        plugins={[dayGridPlugin, timeGridPlugin]}
+        plugins={[dayGridPlugin, timeGridPlugin, resourceTimelinePlugin]}
         events={[
-          { title: "event 1", date: "2020-05-05" },
-          { title: "event 2", date: "2020-05-09" }
+          {
+            title: 'Event1',
+            date: '2020-01-13',
+            allDay: false,
+            color: 'green',
+            backgroundColor: 'green'
+          }
         ]}
         header={{
-          center: "dayGridMonth,dayGridWeek,timelineCustom" // buttons for switching between views
+          left: 'prev,next today',
+          center: 'title',
+          right: "dayGridMonth,dayGridWeek,timelineCustom" // buttons for switching between views
         }}
         fixedWeekCount={false}
         contentHeight={650}
         views={{
           timelineCustom: {
-            type: "timeGrid",
-            buttonText: "Custom",
-
-            visibleRange: function(currentDate) {
-              // Generate a new date for manipulating in the next step
-              var startDate = new Date(currentDate.valueOf());
-              var endDate = new Date(currentDate.valueOf());
-
-              // Adjust the start & end dates, respectively
-              startDate.setDate(startDate.getDate() - 1); // One day in the past
-              endDate.setDate(endDate.getDate() + 8); // Two days into the future
-
-              return { start: startDate, end: endDate };
+            type: 'timeline',
+            buttonText: 'Year',
+            dateIncrement: { years: 1 },
+            slotDuration: { months: 1 },
+            visibleRange: function (currentDate) {
+                return {
+                    start: new Date(new Date().getFullYear(), 0, 1),
+                    end: new Date(new Date().getFullYear(), 12, 31)
+                };
             }
           }
         }}
